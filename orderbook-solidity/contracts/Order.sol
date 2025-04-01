@@ -57,8 +57,17 @@ contract OrderBook {
                     buyOrders[i].amount -= tradeAmount;
                     sellOrders[j].amount -= tradeAmount;
 
-                    if (buyOrders[i].amount == 0) buyOrders[i].isFilled = true;
-                    if (sellOrders[j].amount == 0) sellOrders[j].isFilled = true;
+                    orders[buyOrders[i].id].amount = buyOrders[i].amount;
+                    orders[sellOrders[j].id].amount = sellOrders[j].amount;
+
+                    if (buyOrders[i].amount == 0) {
+                        buyOrders[i].isFilled = true;
+                        orders[buyOrders[i].id].isFilled = true;
+                    }
+                    if (sellOrders[j].amount == 0) {
+                        sellOrders[j].isFilled = true;
+                        orders[sellOrders[j].id].isFilled = true;
+                    }
 
                     emit OrderMatched(buyOrders[i].id, sellOrders[j].id, tradeAmount, tradePrice);
                 }
